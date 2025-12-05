@@ -26,7 +26,7 @@ CLIENT = InferenceHTTPClient(
     api_url="https://detect.roboflow.com",
     api_key="cXQEyLSlDBcL2Yz0VbYX"
 )
-MODEL_ID = "fossil-scanner-v1-hs3pw/2"
+MODEL_ID = "fossil-scanner-v2-ncp2c-oon07/1"#fossil-scanner-v1-hs3pw/2
 
 def draw_fixed_label(img, label, confidence):
     label_text = label.title()
