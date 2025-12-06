@@ -5,7 +5,7 @@ Created by Jayden Wu and Viraj Malhotra.
 
 ### How to Run the Application
 This app can be run on Hugging Face Spaces by accessing this link:
-https://huggingface.co/spaces/jayw88/Fossil-Scanner-AI
+huggingface.co/spaces/rockitz/Fossil-Scanner
 
 ### Disclaimer:
 The AI can make mistakes and detect inaccurate fossils.
