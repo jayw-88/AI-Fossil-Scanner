@@ -17,16 +17,14 @@ custom_theme = Base(
     shadow_drop="drop-shadow(0px 4px 6px rgba(0, 0, 0, 0.1))"
 )
 
-# Initialize Groq AI API key
 client = Groq(api_key=os.environ.get("GROQ_API_KEY", ""))
-
-# Initialize Roboflow client
 
 CLIENT = InferenceHTTPClient(
     api_url="https://detect.roboflow.com",
     api_key="cXQEyLSlDBcL2Yz0VbYX"
 )
-MODEL_ID = "fossil-scanner-v2-ncp2c-oon07/1"
+
+MODEL_ID = "fossil-scanner-v2-ncp2c-oon07/1"#fossil-scanner-v1-hs3pw/2"
 
 def draw_fixed_label(img, label, confidence):
     label_text = label.title()
@@ -54,9 +52,12 @@ def draw_fixed_label(img, label, confidence):
                   (0, 255, 0), -1)
     return img
 
+
 def process_image(frame):
+
     if frame is None:
         return None, "No image uploaded."
+
     img = cv2.cvtColor(frame, cv2.COLOR_RGB2BGR)
     cv2.imwrite("temp.jpg", img)
 
@@ -66,6 +67,7 @@ def process_image(frame):
         return None, f"Error: {e}"
 
     predictions = result.get("predictions", [])
+
     if not predictions:
         return cv2.cvtColor(img, cv2.COLOR_BGR2RGB), "No fossils detected."
 
@@ -87,7 +89,9 @@ def process_image(frame):
                 cv2.drawContours(overlay, [cnt], -1, (0, 255, 0), 3)
 
     merged = cv2.addWeighted(overlay, 0.8, img, 0.2, 0)
+
     label, confidence = predictions[0]["class"], predictions[0]["confidence"]
+
     user = f"Give a thorough description on {label}. Put it in the format: a general one-paragraph description, then a description of physical characteristics and composition, followed by a list of uses and significance of the artifact. (Don't include sources)"
 
     try:
@@ -101,7 +105,9 @@ def process_image(frame):
 
     final_img = draw_fixed_label(merged.copy(), label, confidence)
     output = cv2.cvtColor(final_img, cv2.COLOR_BGR2RGB)
+
     info = f"**{label.title()}** - {confidence*100:.2f}% Confidence\n\n**Fossil Description:**\n{response}"
+
     return output, info
 
 app = gr.Interface(
@@ -117,4 +123,4 @@ app = gr.Interface(
 )
 
 if __name__ == "__main__":
-    app.launch()
+    app.launch(server_name="0.0.0.0", server_port=7860, show_error=True)
