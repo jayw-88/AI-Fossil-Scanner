@@ -1,5 +1,6 @@
 opencv-python
 numpy
-gradio
-inference-sdk
+gradio==6.5.0
 groq
+pytz
+inference-sdk
