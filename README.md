@@ -1,13 +1,13 @@
 # AI Fossil Scanner
-An AI application that allows one to upload an image of a fossil and have AI detect what the fossil could be.
-
-Created by Jayden Wu and Viraj Malhotra.
+A multi-use AI application that assists amateur archaeologists in a variety of tasks.
 
 ### How to Run the Application
-This app can be run on Hugging Face Spaces by accessing this link:
-[huggingface.co/spaces/rockitz/Fossil-Scanner](https://huggingface.co/spaces/rockitz/Fossil-Scanner)
+This application can be run on Hugging Face Spaces by accessing this link:
+https://huggingface.co/spaces/rockitz/Fossil-Scanner
 
-Since there is a secret API in this repo, you'll have to make your own Groq API key if you want to run this code yourself. Otherwise, Hugging Face Spaces will automatically provide the secret.
+To run it locally, download the code as a zip and run the app.py file. Use the local link that will be provided in the terminal. 
+You will have to export your own Groq API Key before running, or some AI capabilities will not work. 
+Manage API keys here: https://console.groq.com/keys
 
 ### Disclaimer:
 The AI can make mistakes and detect inaccurate fossils.
