@@ -1,8 +1,7 @@
 # AI Fossil Scanner
 A multi-use AI application that assists amateur archaeologists in a variety of tasks.
 
-![.](images/example.image)
-
+<img width="1464" height="845" alt="Screenshot 2026-03-29 at 14 49 34" src="https://github.com/user-attachments/assets/dd4efc15-ee02-4ed7-81d5-04dd68465c16" />
 
 ### How to Run the Application
 This application can be run on Hugging Face Spaces by accessing this link:
