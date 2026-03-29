@@ -1,11 +1,2 @@
 title: AI Fossil Scanner
-description: AI-powered fossil identification tool
-
-theme: cayman
-
-markdown: kramdown
-highlighter: rouge
-
-plugins:
-  - jekyll-seo-tag
-  - jekyll-sitemap
+theme: minima
