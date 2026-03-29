@@ -1,7 +1,7 @@
 # AI Fossil Scanner
 A multi-use AI application that assists amateur archaeologists in a variety of tasks.
 
-![](images/example.image)
+![.](images/example.image)
 
 
 ### How to Run the Application
