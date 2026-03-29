@@ -1,6 +1,9 @@
 # AI Fossil Scanner
 A multi-use AI application that assists amateur archaeologists in a variety of tasks.
 
+![](images/example.image)
+
+
 ### How to Run the Application
 This application can be run on Hugging Face Spaces by accessing this link:
 [huggingface.co/spaces/rockitz/Fossil-Scanner](https://huggingface.co/spaces/rockitz/Fossil-Scanner)
