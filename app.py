@@ -12,7 +12,6 @@ from collections import Counter
 from gradio.themes.base import Base
 from gradio.themes.utils import colors
 
-# ── Dark fossil-earth theme ───────────────────────────────────────────────────
 custom_theme = Base(
     primary_hue=colors.amber,
     secondary_hue=colors.stone,
@@ -88,7 +87,6 @@ def get_reference_image(fossil_name):
         "Accept": "application/json",
     }
 
-    # Strategy 1: Wikipedia search API to find page, then get image
     try:
         query = urllib.parse.quote(fossil_name + " fossil")
         search_url = f"https://en.wikipedia.org/w/api.php?action=query&list=search&srsearch={query}&format=json&srlimit=1"
@@ -98,7 +96,6 @@ def get_reference_image(fossil_name):
             results = data.get("query", {}).get("search", [])
             if results:
                 page_title = urllib.parse.quote(results[0]["title"].replace(" ", "_"))
-                # Get page images
                 img_url2 = f"https://en.wikipedia.org/w/api.php?action=query&titles={page_title}&prop=pageimages&format=json&pithumbsize=320"
                 req2 = urllib.request.Request(img_url2, headers=headers)
                 with urllib.request.urlopen(req2, timeout=6) as resp2:
@@ -111,8 +108,6 @@ def get_reference_image(fossil_name):
                             return src
     except Exception:
         pass
-
-    # Strategy 2: Wikimedia Commons image search
     try:
         query2 = urllib.parse.quote(fossil_name)
         commons_url = (
@@ -201,8 +196,6 @@ def search_fossil_by_name(fossil_name):
     correction_note = ""
     if resolved_name.lower() != fossil_name.strip().lower():
         correction_note = f'<div class="correction-note">Showing results for: <span style="color:#c8922a;font-weight:700;">{resolved_name}</span></div>'
-
-    # Fetch reference image
     img_url = get_reference_image(resolved_name)
     if img_url:
         img_html = f"""
@@ -486,8 +479,6 @@ def build_entries_html(search_query=""):
     </style>
     <div style="font-family:sans-serif;">{rows}</div>"""
 
-
-# ── HEADER HTML with 3D particle canvas ──────────────────────────────────────
 HEADER_HTML = """
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@700;900&family=Crimson+Pro:ital,wght@0,300;0,400;1,300&display=swap');
@@ -559,7 +550,6 @@ HEADER_HTML = """
     100% { top: 100%; opacity: 0; }
 }
 
-/* 3D rotating fossil orb */
 .orb-container {
     position: absolute;
     right: 60px;
@@ -663,8 +653,8 @@ HEADER_HTML = """
     <div class="corner corner-br"></div>
 
     <div class="header-content">
-        <h1 class="header-title">AI FOSSIL SCANNER</h1>
-        <p class="header-sub">Identify & catalog prehistoric specimens with artificial intelligence</p>
+        <h1 class="header-title">FOSSIL SCANNER</h1>
+        <p class="header-sub">Identify, search, and catalog fossils in this three-in-one multi-use tool.</p>
     </div>
 
     <div class="orb-container">
@@ -796,11 +786,90 @@ def get_stats_html():
     </div>"""
 
 
-# ── Build the Gradio app ──────────────────────────────────────────────────────
 with gr.Blocks(
-    theme=custom_theme,
-    title="AI Fossil Scanner",
-    css="""
+    title="Fossil Scanner"
+) as app:
+
+    gr.HTML(HEADER_HTML)
+
+    with gr.Tabs():
+        with gr.Tab("⬡ Scanner"):
+            with gr.Row():
+                with gr.Column():
+                    image_input = gr.Image(type="numpy", label="Upload Fossil Image")
+                    scan_btn = gr.Button("⬡  Scan Fossil", variant="primary")
+                with gr.Column():
+                    image_output = gr.Image(type="numpy", label="Detection Result")
+                    info_output = gr.Markdown(label="Analysis")
+            scan_btn.click(fn=process_image, inputs=image_input, outputs=[image_output, info_output])
+
+        with gr.Tab("Search"):
+            gr.Markdown("Fossil Base")
+            gr.Markdown("Type the name of any fossil and get a description and reference image of said fossil.")
+            with gr.Row():
+                fossil_search_input = gr.Textbox(
+                    placeholder="e.g.  ammonite, coral",
+                    label="Search Query",
+                    scale=5,
+                )
+                fossil_search_btn = gr.Button("Search", variant="primary", scale=1)
+            fossil_search_output = gr.HTML(value=SEARCH_PLACEHOLDER_HTML)
+            fossil_search_btn.click(fn=search_fossil_by_name, inputs=fossil_search_input, outputs=fossil_search_output)
+            fossil_search_input.submit(fn=search_fossil_by_name, inputs=fossil_search_input, outputs=fossil_search_output)
+
+        with gr.Tab("⬡ Catalog"):
+            gr.Markdown("Scan History")
+            with gr.Row():
+                refresh_btn = gr.Button("↺  Refresh", variant="secondary")
+                clear_btn   = gr.Button("⊘  Clear All", variant="stop")
+
+            stats_display = gr.HTML(value=get_stats_html())
+
+            gr.Markdown("Filter Entries")
+            with gr.Row():
+                search_input = gr.Textbox(placeholder="Filter by name...", label="Search Catalog", scale=5)
+                search_btn   = gr.Button("Filter", variant="primary", scale=1)
+
+            entries_html = gr.HTML(value=build_entries_html())
+
+            gr.Markdown("Verify Prediction")
+            gr.Markdown("Enter the entry ID and verify whether the AI identified it correctly.")
+            with gr.Row():
+                entry_id_input = gr.Number(label="Entry ID", precision=0, minimum=1)
+                correct_btn    = gr.Button("✓  Correct", variant="primary")
+                incorrect_btn  = gr.Button("✗  Incorrect", variant="stop")
+
+            def do_correct(eid, query=""):
+                if eid is None: return get_stats_html(), build_entries_html(query)
+                mark_entry(int(eid), True)
+                return get_stats_html(), build_entries_html(query)
+
+            def do_incorrect(eid, query=""):
+                if eid is None: return get_stats_html(), build_entries_html(query)
+                mark_entry(int(eid), False)
+                return get_stats_html(), build_entries_html(query)
+
+            def do_refresh(query=""):
+                return get_stats_html(), build_entries_html(query)
+
+            def do_clear():
+                save_catalog([])
+                return get_stats_html(), build_entries_html()
+
+            def do_search(query):
+                return build_entries_html(query)
+
+            correct_btn.click(fn=do_correct,   inputs=[entry_id_input, search_input], outputs=[stats_display, entries_html])
+            incorrect_btn.click(fn=do_incorrect, inputs=[entry_id_input, search_input], outputs=[stats_display, entries_html])
+            refresh_btn.click(fn=lambda q: do_refresh(q), inputs=search_input, outputs=[stats_display, entries_html])
+            clear_btn.click(fn=do_clear, outputs=[stats_display, entries_html])
+            search_input.change(fn=do_search, inputs=search_input, outputs=entries_html)
+            search_btn.click(fn=do_search,  inputs=search_input, outputs=entries_html)
+
+        scan_btn.click(fn=lambda: do_refresh(""), outputs=[stats_display, entries_html])
+
+if __name__ == "__main__":
+    app.launch(show_error=True, share=True, theme = custom_theme, css="""
     /* Global dark override */
     body, .gradio-container {
         background:
@@ -838,90 +907,4 @@ with gr.Blocks(
     button.primary { border-radius: 10px !important; font-weight: 700 !important; letter-spacing: 0.04em !important; }
     button.secondary { background: #1a1a1a !important; border-color: #333 !important; color: #888 !important; border-radius: 10px !important; }
     button.stop { background: #1a0a0a !important; border-color: #ef444433 !important; color: #ef4444 !important; border-radius: 10px !important; }
-    """
-) as app:
-
-    gr.HTML(HEADER_HTML)
-
-    with gr.Tabs():
-
-        # ── SCANNER ──────────────────────────────────────────────────────────
-        with gr.Tab("⬡ Scanner"):
-            with gr.Row():
-                with gr.Column():
-                    image_input = gr.Image(type="numpy", label="Upload Fossil Image")
-                    scan_btn = gr.Button("⬡  Scan Fossil", variant="primary")
-                with gr.Column():
-                    image_output = gr.Image(type="numpy", label="Detection Result")
-                    info_output = gr.Markdown(label="Analysis")
-            scan_btn.click(fn=process_image, inputs=image_input, outputs=[image_output, info_output])
-
-        # ── SEARCH ───────────────────────────────────────────────────────────
-        with gr.Tab("Search"):
-            gr.Markdown("### Fossil Base")
-            gr.Markdown("*Type any fossil name — typos and partial names are handled automatically.*")
-            with gr.Row():
-                fossil_search_input = gr.Textbox(
-                    placeholder="e.g.  ammonite, coral",
-                    label="Search Query",
-                    scale=5,
-                )
-                fossil_search_btn = gr.Button("Search", variant="primary", scale=1)
-            fossil_search_output = gr.HTML(value=SEARCH_PLACEHOLDER_HTML)
-            fossil_search_btn.click(fn=search_fossil_by_name, inputs=fossil_search_input, outputs=fossil_search_output)
-            fossil_search_input.submit(fn=search_fossil_by_name, inputs=fossil_search_input, outputs=fossil_search_output)
-
-        # ── CATALOG ──────────────────────────────────────────────────────────
-        with gr.Tab("⬡ Catalog"):
-            gr.Markdown("Scan History")
-            with gr.Row():
-                refresh_btn = gr.Button("↺  Refresh", variant="secondary")
-                clear_btn   = gr.Button("⊘  Clear All", variant="stop")
-
-            stats_display = gr.HTML(value=get_stats_html())
-
-            gr.Markdown("Filter Entries")
-            with gr.Row():
-                search_input = gr.Textbox(placeholder="Filter by name...", label="Search Catalog", scale=5)
-                search_btn   = gr.Button("Filter", variant="primary", scale=1)
-
-            entries_html = gr.HTML(value=build_entries_html())
-
-            gr.Markdown("Verify Prediction")
-            gr.Markdown("*Enter the entry ID and mark whether the AI identified it correctly.*")
-            with gr.Row():
-                entry_id_input = gr.Number(label="Entry ID", precision=0, minimum=1)
-                correct_btn    = gr.Button("✓  Correct", variant="primary")
-                incorrect_btn  = gr.Button("✗  Incorrect", variant="stop")
-
-            def do_correct(eid, query=""):
-                if eid is None: return get_stats_html(), build_entries_html(query)
-                mark_entry(int(eid), True)
-                return get_stats_html(), build_entries_html(query)
-
-            def do_incorrect(eid, query=""):
-                if eid is None: return get_stats_html(), build_entries_html(query)
-                mark_entry(int(eid), False)
-                return get_stats_html(), build_entries_html(query)
-
-            def do_refresh(query=""):
-                return get_stats_html(), build_entries_html(query)
-
-            def do_clear():
-                save_catalog([])
-                return get_stats_html(), build_entries_html()
-
-            def do_search(query):
-                return build_entries_html(query)
-
-            correct_btn.click(fn=do_correct,   inputs=[entry_id_input, search_input], outputs=[stats_display, entries_html])
-            incorrect_btn.click(fn=do_incorrect, inputs=[entry_id_input, search_input], outputs=[stats_display, entries_html])
-            refresh_btn.click(fn=lambda q: do_refresh(q), inputs=search_input, outputs=[stats_display, entries_html])
-            clear_btn.click(fn=do_clear, outputs=[stats_display, entries_html])
-            search_input.change(fn=do_search, inputs=search_input, outputs=entries_html)
-            search_btn.click(fn=do_search,  inputs=search_input, outputs=entries_html)
-
-        scan_btn.click(fn=lambda: do_refresh(""), outputs=[stats_display, entries_html])
-
-if __name__ == "__main__":
-    app.launch(show_error=True, share=True)
+    """)
