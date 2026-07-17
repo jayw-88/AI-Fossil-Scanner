@@ -6,7 +6,7 @@ Created by jayw-88 and Vmal-72.
 
 ### How to Run the Application
 This application can be run on Hugging Face Spaces by accessing this link:
-[huggingface.co/spaces/rockitz/Fossil-Scanner](https://huggingface.co/spaces/rockitz/Fossil-Scanner)
+[huggingface.co/spaces/ax0tl/Fossil-Scanner](https://huggingface.co/spaces/ax0tl/Fossil-Scanner)
 
 To run it locally, download the code as a zip and run the app.py file. Use the local link that will be provided in the terminal. 
 You will have to export your own Groq API Key before running, or some AI capabilities will not work. 
