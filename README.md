@@ -1,16 +1,43 @@
 # AI Fossil Scanner
-A multi-use AI application that assists amateur archaeologists in a variety of tasks.
-Created by jayw-88 and Vmal-72.
 
-<img width="1464" height="845" alt="Image" src="https://github.com/user-attachments/assets/dd4efc15-ee02-4ed7-81d5-04dd68465c16" />
+A multi-use AI application that assists amateur archaeologists in a variety of tasks. Created by jayw-88 and Vmal-72.
 
-### How to Run the Application
-This application can be run on Hugging Face Spaces by accessing this link:
-[huggingface.co/spaces/ax0tl/Fossil-Scanner](https://huggingface.co/spaces/ax0tl/Fossil-Scanner)
+<img width="1464" height="845" alt="AI Fossil Scanner Preview" src="https://github.com/user-attachments/assets/dd4efc15-ee02-4ed7-81d5-04dd68465c16" />
 
-To run it locally, download the code as a zip and run the app.py file. Use the local link that will be provided in the terminal. 
-You will have to export your own Groq API Key before running, or some AI capabilities will not work. 
-You can manage Groq API keys at [Groq API Keys](https://console.groq.com/keys)
+## Access the Web App
 
-### Disclaimer:
-The AI can make mistakes and detect inaccurate fossils.
+Access the live application directly on Hugging Face Spaces:
+[Fossil Scanner on Hugging Face](https://huggingface.co/spaces/ax0tl/Fossil-Scanner)
+
+## Local Setup & Running
+
+1. Obtain a Groq API Key from the [Groq Console](https://console.groq.com/keys) and set it in your environment before running:
+
+   * macOS / Linux:
+     ```bash
+     export GROQ_API_KEY="your_api_key_here"
+     ```
+   * Windows (Command Prompt):
+     ```cmd
+     set GROQ_API_KEY=your_api_key_here
+     ```
+   * Windows (PowerShell):
+     ```powershell
+     $env:GROQ_API_KEY="your_api_key_here"
+     ```
+
+2. Download the project source code as a ZIP file and extract (unzip) it.
+
+3. Open your terminal or command prompt inside the extracted project folder.
+
+4. Run the application:
+
+```bash
+python app.py
+```
+
+5. Open the local URL provided in the terminal output in your web browser.
+
+## Disclaimer
+
+AI models can make mistakes and may produce inaccurate fossil identifications. Always verify results independently.
