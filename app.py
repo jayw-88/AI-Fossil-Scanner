@@ -869,7 +869,7 @@ with gr.Blocks(
         scan_btn.click(fn=lambda: do_refresh(""), outputs=[stats_display, entries_html])
 
 if __name__ == "__main__":
-    app.launch(show_error=True, share=True, theme = custom_theme, css="""
+    app.launch(show_error=True, share=False, ssr = False, theme = custom_theme, css="""
     /* Global dark override */
     body, .gradio-container {
         background:
