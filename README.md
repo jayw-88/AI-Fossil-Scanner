@@ -4,7 +4,7 @@ A multi-use application that assists amateur archaeologists in a variety of task
 
 <img width="1464" height="845" alt="AI Fossil Scanner Preview" src="https://github.com/user-attachments/assets/dd4efc15-ee02-4ed7-81d5-04dd68465c16" />
 
-## Access the Web App
+## Access the Application
 
 Access the live application directly on Hugging Face Spaces:
 [Fossil Scanner on Hugging Face](https://huggingface.co/spaces/ax0tl/Fossil-Scanner)
