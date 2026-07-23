@@ -1,0 +1,99 @@
+/* Base Styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: system-ui, -apple-system, sans-serif;
+    background-color: #0f172a;
+    color: #f8fafc;
+    padding: 40px 20px;
+}
+
+.container {
+    max-width: 800px;
+    margin: 0 auto;
+    background-color: #1e293b;
+    padding: 30px;
+    border-radius: 0 0 12px 12px;
+    border: 1px solid #334155;
+    border-top: none;
+}
+
+/* Tab Navigation */
+.tabs-nav {
+    max-width: 800px;
+    margin: 0 auto;
+    display: flex;
+    gap: 5px;
+    border-bottom: 2px solid #334155;
+}
+
+.tab-btn {
+    background-color: #1e293b;
+    color: #94a3b8;
+    border: 1px solid #334155;
+    border-bottom: none;
+    padding: 12px 24px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    border-radius: 8px 8px 0 0;
+    transition: all 0.2s ease;
+}
+
+.tab-btn:hover {
+    color: #f8fafc;
+    background-color: #334155;
+}
+
+.tab-btn.active {
+    background-color: #38bdf8;
+    color: #0f172a;
+    border-color: #38bdf8;
+}
+
+/* Tab Content Visibility */
+.tab-content {
+    display: none;
+}
+
+.tab-content.active {
+    display: block;
+}
+
+/* Filler Component Layouts */
+h1, h2, h3 {
+    margin-bottom: 15px;
+}
+
+p {
+    color: #94a3b8;
+    margin-bottom: 20px;
+    line-height: 1.6;
+}
+
+.btn {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #38bdf8;
+    color: #0f172a;
+    text-decoration: none;
+    font-weight: 600;
+    border-radius: 6px;
+}
+
+.grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 15px;
+}
+
+.card {
+    background-color: #0f172a;
+    padding: 20px;
+    border-radius: 8px;
+    border: 1px solid #334155;
+}
