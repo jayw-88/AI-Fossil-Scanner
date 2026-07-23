@@ -3,57 +3,82 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>filler</title>
+    <title>AI Fossil Scanner</title>
     <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&family=JetBrains+Mono&display=swap" rel="stylesheet">
 </head>
 <body>
 
     <nav class="tabs-nav">
-        <button class="tab-btn active" onclick="openTab(event, 'tab1')">filler</button>
-        <button class="tab-btn" onclick="openTab(event, 'tab2')">filler</button>
-        <button class="tab-btn" onclick="openTab(event, 'tab3')">filler</button>
+        <button class="tab-btn active" onclick="openTab(event, 'overview')">Overview</button>
+        <button class="tab-btn" onclick="openTab(event, 'setup')">Local Setup</button>
+        <button class="tab-btn" onclick="openTab(event, 'disclaimer')">Disclaimer</button>
     </nav>
 
-    <div class="container">
+    <div class="full-window-container">
         
-        <div id="tab1" class="tab-content active">
-            <h1>filler</h1>
-            <p>filler filler filler filler filler filler filler filler filler filler filler filler filler filler filler.</p>
-            <a href="#" class="btn">filler</a>
-        </div>
-
-        <div id="tab2" class="tab-content">
-            <h2>filler</h2>
-            <div class="grid">
-                <div class="card">
-                    <h3>filler</h3>
-                    <p>filler filler filler filler filler filler.</p>
+        <div id="overview" class="tab-content active">
+            <header class="hero">
+                <h1>AI Fossil Scanner</h1>
+                <p class="subtitle">A multi-use AI application that assists amateur archaeologists in a variety of tasks.</p>
+                <p class="authors">Created by <span>jayw-88</span> and <span>Vmal-72</span></p>
+                <div class="cta-group">
+                    <a href="https://huggingface.co/spaces/ax0tl/Fossil-Scanner" target="_blank" class="btn primary">Access Web App on Hugging Face</a>
                 </div>
-                <div class="card">
-                    <h3>filler</h3>
-                    <p>filler filler filler filler filler filler.</p>
-                </div>
+            </header>
+            
+            <div class="preview-container">
+                <img src="https://github.com/user-attachments/assets/dd4efc15-ee02-4ed7-81d5-04dd68465c16" alt="AI Fossil Scanner Preview" class="preview-img">
             </div>
         </div>
 
-        <div id="tab3" class="tab-content">
-            <h2>filler</h2>
-            <p>filler filler filler filler filler filler filler filler filler.</p>
+        <div id="setup" class="tab-content">
+            <h2>Local Setup and Running</h2>
+            
+            <ol class="setup-steps">
+                <li>
+                    <p>Obtain a Groq API Key from the <a href="https://console.groq.com/keys" target="_blank">Groq Console</a> and set it in your environment before running:</p>
+                    
+                    <div class="code-block">
+                        <span class="code-label">macOS / Linux:</span>
+                        <pre><code>export GROQ_API_KEY="your_api_key_here"</code></pre>
+                        
+                        <span class="code-label">Windows (Command Prompt):</span>
+                        <pre><code>set GROQ_API_KEY=your_api_key_here</code></pre>
+                        
+                        <span class="code-label">Windows (PowerShell):</span>
+                        <pre><code>$env:GROQ_API_KEY="your_api_key_here"</code></pre>
+                    </div>
+                </li>
+                <li><p>Download the project source code as a ZIP file and extract (unzip) it.</p></li>
+                <li><p>Open your terminal or command prompt inside the extracted project folder.</p></li>
+                <li>
+                    <p>Run the application:</p>
+                    <div class="code-block">
+                        <pre><code>python app.py</code></pre>
+                    </div>
+                </li>
+                <li><p>Open the local URL provided in the terminal output in your web browser.</p></li>
+            </ol>
+        </div>
+
+        <div id="disclaimer" class="tab-content">
+            <h2>Disclaimer</h2>
+            <div class="warning-box">
+                <p>AI models can make mistakes and may produce inaccurate fossil identifications. Always verify results independently.</p>
+            </div>
         </div>
 
     </div>
 
     <script>
         function openTab(evt, tabName) {
-            // Hide all tab contents
             const contents = document.querySelectorAll('.tab-content');
             contents.forEach(content => content.classList.remove('active'));
 
-            // Remove active class from all buttons
             const buttons = document.querySelectorAll('.tab-btn');
             buttons.forEach(btn => btn.classList.remove('active'));
 
-            // Show selected tab and highlight button
             document.getElementById(tabName).classList.add('active');
             evt.currentTarget.classList.add('active');
         }
