@@ -1,6 +1,6 @@
 # AI Fossil Scanner
 
-A multi-use application that assists amateur archaeologists in a variety of tasks. Developed by jayw-88 and Vmal-72.
+A multi-use application that assists amateur archaeologists in a variety of tasks. Developed by jwu-88 and Vmal-72.
 
 <img width="1464" height="845" alt="AI Fossil Scanner Preview" src="https://github.com/user-attachments/assets/dd4efc15-ee02-4ed7-81d5-04dd68465c16" />
 
